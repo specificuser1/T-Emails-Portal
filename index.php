@@ -1,38 +1,39 @@
 <?php
-function generateEmail() {
+require "config.php";
+session_start();
+
+function makeEmail($domains) {
     $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-    $prefix = substr(str_shuffle($chars), 0, 8);
-    $domains = ["tempmail.pk", "fakemail.me", "mytemp.ph" , "tmail.io" , "freemail.lol"];
+    $prefix = substr(str_shuffle($chars), 0, 10);
     $domain = $domains[array_rand($domains)];
-    return $prefix . "@" . $domain;
+    return "$prefix@$domain";
 }
 
-$email = generateEmail();
+if (!isset($_SESSION["temp_email"])) {
+    $_SESSION["temp_email"] = makeEmail($MAIL_DOMAINS);
+}
+$email = $_SESSION["temp_email"];
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Temp Mail Generator</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Temp Mail | BY SUBHAN</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="assets/script.js"></script>
 </head>
-<body>
+
+<body class="glass">
     <div class="box">
-        <h1>Temp Mail Generator</h1>
+        <h1>T-Mail Doctor</h1>
+
         <div class="email-box">
-            <input type="text" id="email" value="<?php echo $email; ?>" readonly>
+            <input type="text" id="email" value="<?php echo $email; ?>" readonly />
             <button onclick="copyEmail()">Copy</button>
         </div>
 
-        <a href="inbox.php?email=<?php echo $email; ?>" class="btn">Open Inbox</a>
+        <a href="inbox.php" class="btn">Open Inbox</a>
+        <button class="btn" onclick="toggleTheme()">Switch Theme</button>
     </div>
-
-<script>
-function copyEmail() {
-    let field = document.getElementById("email");
-    field.select();
-    navigator.clipboard.writeText(field.value);
-    alert("Copied: " + field.value);
-}
-</script>
 </body>
 </html>
