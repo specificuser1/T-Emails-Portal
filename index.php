@@ -2,7 +2,7 @@
 function generateEmail() {
     $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
     $prefix = substr(str_shuffle($chars), 0, 8);
-    $domains = ["tempmail.pk", "fakemail.me", "mytemp.ph"];
+    $domains = ["tempmail.pk", "fakemail.me", "mytemp.ph" , "tmail.io" , "freemail.lol"];
     $domain = $domains[array_rand($domains)];
     return $prefix . "@" . $domain;
 }
